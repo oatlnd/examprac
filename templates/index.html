@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Exam Practice Hub{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="container">
+        <h1 class="display-4 mb-4">Master Your Exams with Confidence</h1>
+        <p class="lead mb-4">Practice with thousands of questions across multiple subjects and year groups. Get your free trial today!</p>
+        <a href="{{ url_for('register') }}" class="btn btn-light btn-lg me-3">
+            <i class="fas fa-rocket me-2"></i>Start Free Trial
+        </a>
+        <a href="{{ url_for('login') }}" class="btn btn-outline-light btn-lg">
+            <i class="fas fa-sign-in-alt me-2"></i>Login
+        </a>
+    </div>
+</div>
+
+<div class="container my-5">
+    <div class="row text-center mb-5">
+        <div class="col-12">
+            <h2 class="mb-4">Why Choose Exam Practice Hub?</h2>
+        </div>
+    </div>
+    
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card feature-card text-center p-4">
+                <div class="card-body">
+                    <i class="fas fa-book-open fa-3x text-primary mb-3"></i>
+                    <h5 class="card-title">Multiple Subjects</h5>
+                    <p class="card-text">Practice across various subjects with questions tailored to your year group and learning level.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card feature-card text-center p-4">
+                <div class="card-body">
+                    <i class="fas fa-brain fa-3x text-primary mb-3"></i>
+                    <h5 class="card-title">Adaptive Learning</h5>
+                    <p class="card-text">Questions with low, medium, and high complexity levels to match your current ability.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card feature-card text-center p-4">
+                <div class="card-body">
+                    <i class="fas fa-chart-line fa-3x text-primary mb-3"></i>
+                    <h5 class="card-title">Track Progress</h5>
+                    <p class="card-text">Monitor your performance and see your improvement over time with detailed analytics.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card feature-card text-center p-4">
+                <div class="card-body">
+                    <i class="fas fa-clock fa-3x text-primary mb-3"></i>
+                    <h5 class="card-title">Timed Quizzes</h5>
+                    <p class="card-text">Practice under exam conditions with timed quizzes to build confidence and speed.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card feature-card text-center p-4">
+                <div class="card-body">
+                    <i class="fas fa-images fa-3x text-primary mb-3"></i>
+                    <h5 class="card-title">Rich Content</h5>
+                    <p class="card-text">Questions with text and images, plus support for both multiple choice and short answer formats.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card feature-card text-center p-4">
+                <div class="card-body">
+                    <i class="fas fa-dollar-sign fa-3x text-primary mb-3"></i>
+                    <h5 class="card-title">Affordable Plans</h5>
+                    <p class="card-text">Start with a free trial, then choose from flexible monthly or yearly subscription options.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row mt-5">
+        <div class="col-12 text-center">
+            <h3 class="mb-4">Ready to Start Your Journey?</h3>
+            <p class="lead mb-4">Join thousands of students who are already improving their exam performance.</p>
+            <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg">
+                <i class="fas fa-user-plus me-2"></i>Get Started Now
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

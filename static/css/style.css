@@ -1,0 +1,191 @@
+/* Custom styles for Exam Practice Hub */
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+.hero-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 80px 0;
+    text-align: center;
+}
+
+.feature-card {
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    height: 100%;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+}
+
+.dashboard-card {
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-2px);
+}
+
+.stats-card {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    color: white;
+    border-radius: 10px;
+}
+
+.quiz-question {
+    background-color: #f8f9fa;
+    border-left: 4px solid #007bff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+.quiz-option {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    background-color: white;
+    transition: background-color 0.2s ease;
+}
+
+.quiz-option:hover {
+    background-color: #e9ecef;
+}
+
+.quiz-option input[type="radio"] {
+    margin-right: 10px;
+}
+
+.subscription-card {
+    border: 2px solid #dee2e6;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.subscription-card.featured {
+    border-color: #007bff;
+    box-shadow: 0 8px 25px rgba(0, 123, 255, 0.2);
+}
+
+.subscription-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.complexity-badge {
+    font-size: 0.8em;
+    padding: 4px 8px;
+}
+
+.complexity-low {
+    background-color: #28a745;
+}
+
+.complexity-medium {
+    background-color: #ffc107;
+    color: #000;
+}
+
+.complexity-high {
+    background-color: #dc3545;
+}
+
+.question-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+    margin: 10px 0;
+}
+
+.admin-sidebar {
+    background-color: #343a40;
+    min-height: calc(100vh - 56px);
+    padding: 20px 0;
+}
+
+.admin-sidebar .nav-link {
+    color: #adb5bd;
+    padding: 10px 20px;
+}
+
+.admin-sidebar .nav-link:hover {
+    color: white;
+    background-color: #495057;
+}
+
+.admin-sidebar .nav-link.active {
+    color: white;
+    background-color: #007bff;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.btn-primary {
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    border: none;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(45deg, #0056b3, #004085);
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.alert {
+    border: none;
+    border-radius: 8px;
+}
+
+.table th {
+    border-top: none;
+    background-color: #f8f9fa;
+    font-weight: 600;
+}
+
+.pagination .page-link {
+    border: none;
+    color: #007bff;
+}
+
+.pagination .page-item.active .page-link {
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    border: none;
+}
+
+.loading {
+    text-align: center;
+    padding: 40px;
+}
+
+.spinner-border {
+    color: #007bff;
+}
+
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 40px 0;
+    }
+    
+    .hero-section h1 {
+        font-size: 2rem;
+    }
+}

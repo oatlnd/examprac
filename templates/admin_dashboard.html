@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - Exam Practice Hub{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h1><i class="fas fa-tachometer-alt text-primary me-2"></i>Admin Dashboard</h1>
+        <p class="text-muted">Manage your exam practice platform</p>
+    </div>
+</div>
+
+<!-- Statistics Cards -->
+<div class="row g-4 mb-5">
+    <div class="col-md-4">
+        <div class="card stats-card text-center p-4">
+            <div class="card-body">
+                <i class="fas fa-users fa-3x mb-3"></i>
+                <h2 class="mb-1">{{ total_users }}</h2>
+                <p class="mb-0">Total Users</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card stats-card text-center p-4">
+            <div class="card-body">
+                <i class="fas fa-question-circle fa-3x mb-3"></i>
+                <h2 class="mb-1">{{ total_questions }}</h2>
+                <p class="mb-0">Total Questions</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card stats-card text-center p-4">
+            <div class="card-body">
+                <i class="fas fa-book fa-3x mb-3"></i>
+                <h2 class="mb-1">{{ total_subjects }}</h2>
+                <p class="mb-0">Total Subjects</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="row">
+    <div class="col-12">
+        <h3 class="mb-4">Quick Actions</h3>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-4">
+        <div class="card dashboard-card h-100">
+            <div class="card-body text-center">
+                <i class="fas fa-book-open fa-3x text-primary mb-3"></i>
+                <h5 class="card-title">Manage Subjects</h5>
+                <p class="card-text">Add, edit, or remove subjects from the platform.</p>
+                <a href="{{ url_for('manage_subjects') }}" class="btn btn-primary">
+                    <i class="fas fa-cog me-1"></i>Manage Subjects
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card dashboard-card h-100">
+            <div class="card-body text-center">
+                <i class="fas fa-question fa-3x text-primary mb-3"></i>
+                <h5 class="card-title">Question Bank</h5>
+                <p class="card-text">Add new questions or manage existing ones in the question bank.</p>
+                <a href="{{ url_for('manage_questions') }}" class="btn btn-primary">
+                    <i class="fas fa-database me-1"></i>Question Bank
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card dashboard-card h-100">
+            <div class="card-body text-center">
+                <i class="fas fa-plus-circle fa-3x text-primary mb-3"></i>
+                <h5 class="card-title">Add Question</h5>
+                <p class="card-text">Quickly add a new question to the question bank.</p>
+                <a href="{{ url_for('add_question') }}" class="btn btn-primary">
+                    <i class="fas fa-plus me-1"></i>Add Question
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card dashboard-card h-100">
+            <div class="card-body text-center">
+                <i class="fas fa-clipboard-list fa-3x text-primary mb-3"></i>
+                <h5 class="card-title">Create Quiz</h5>
+                <p class="card-text">Generate quizzes based on subjects, year groups, and complexity.</p>
+                <a href="{{ url_for('create_quiz') }}" class="btn btn-primary">
+                    <i class="fas fa-magic me-1"></i>Create Quiz
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card dashboard-card h-100">
+            <div class="card-body text-center">
+                <i class="fas fa-chart-bar fa-3x text-primary mb-3"></i>
+                <h5 class="card-title">Analytics</h5>
+                <p class="card-text">View detailed analytics and performance reports.</p>
+                <button class="btn btn-outline-primary" disabled>
+                    <i class="fas fa-chart-line me-1"></i>Coming Soon
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card dashboard-card h-100">
+            <div class="card-body text-center">
+                <i class="fas fa-users-cog fa-3x text-primary mb-3"></i>
+                <h5 class="card-title">User Management</h5>
+                <p class="card-text">Manage user accounts and subscription settings.</p>
+                <button class="btn btn-outline-primary" disabled>
+                    <i class="fas fa-users me-1"></i>Coming Soon
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

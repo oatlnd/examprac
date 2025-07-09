@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block title %}Select Quiz - {{ subject.name }}{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url_for('student_dashboard') }}">Dashboard</a></li>
+                <li class="breadcrumb-item active">{{ subject.name }}</li>
+            </ol>
+        </nav>
+        <h1><i class="fas fa-book text-primary me-2"></i>{{ subject.name }}</h1>
+        {% if subject.description %}
+            <p class="text-muted">{{ subject.description }}</p>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body p-5">
+                <h3 class="text-center mb-4">Customize Your Quiz</h3>
+                
+                <form method="POST" action="{{ url_for('take_quiz') }}">
+                    <input type="hidden" name="subject_id" value="{{ subject.id }}">
+                    
+                    <div class="mb-4">
+                        <label for="complexity" class="form-label">Difficulty Level</label>
+                        <select class="form-select" id="complexity" name="complexity" required>
+                            <option value="">Select difficulty level</option>
+                            <option value="low">
+                                <span class="badge complexity-low">Low</span> - Basic concepts and easy questions
+                            </option>
+                            <option value="medium">
+                                <span class="badge complexity-medium">Medium</span> - Intermediate level questions
+                            </option>
+                            <option value="high">
+                                <span class="badge complexity-high">High</span> - Advanced and challenging questions
+                            </option>
+                        </select>
+                        <div class="form-text">Choose the difficulty level that matches your current understanding.</div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="num_questions" class="form-label">Number of Questions</label>
+                        <select class="form-select" id="num_questions" name="num_questions" required>
+                            <option value="">Select number of questions</option>
+                            <option value="5">5 Questions (Quick Practice)</option>
+                            <option value="10" selected>10 Questions (Recommended)</option>
+                            <option value="15">15 Questions</option>
+                            <option value="20">20 Questions (Full Test)</option>
+                        </select>
+                        <div class="form-text">More questions provide better practice but take longer to complete.</div>
+                    </div>
+                    
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>Your Settings:</strong><br>
+                        Subject: {{ subject.name }}<br>
+                        Year Group: {{ user.year_group }}<br>
+                        Questions will be randomly selected based on your preferences.
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fas fa-play me-2"></i>Start Quiz
+                        </button>
+                        <a href="{{ url_for('student_dashboard') }}" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Study Tips -->
+<div class="row mt-5">
+    <div class="col-md-4">
+        <div class="card text-center h-100">
+            <div class="card-body">
+                <i class="fas fa-lightbulb fa-2x text-warning mb-3"></i>
+                <h5>Study Tip</h5>
+                <p class="small">Start with low difficulty questions to build confidence, then gradually increase the difficulty.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center h-100">
+            <div class="card-body">
+                <i class="fas fa-clock fa-2x text-info mb-3"></i>
+                <h5>Time Management</h5>
+                <p class="small">Practice under timed conditions to improve your speed and performance in real exams.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center h-100">
+            <div class="card-body">
+                <i class="fas fa-chart-line fa-2x text-success mb-3"></i>
+                <h5>Track Progress</h5>
+                <p class="small">Regular practice and reviewing your mistakes will help you improve over time.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

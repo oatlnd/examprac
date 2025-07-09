@@ -1,0 +1,239 @@
+{% extends "base.html" %}
+
+{% block title %}Add Question - Admin{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url_for('admin_dashboard') }}">Admin Dashboard</a></li>
+                <li class="breadcrumb-item active">Add Question</li>
+            </ol>
+        </nav>
+        <h1><i class="fas fa-plus-circle text-primary me-2"></i>Add New Question</h1>
+        <p class="text-muted">Create a new question for the question bank</p>
+    </div>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card">
+            <div class="card-body p-4">
+                <form method="POST" enctype="multipart/form-data">
+                    <!-- Basic Information -->
+                    <div class="row mb-4">
+                        <div class="col-md-4">
+                            <label for="subject_id" class="form-label">Subject</label>
+                            <select class="form-select" id="subject_id" name="subject_id" required>
+                                <option value="">Select Subject</option>
+                                {% for subject in subjects %}
+                                    <option value="{{ subject.id }}">{{ subject.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="year_group" class="form-label">Year Group</label>
+                            <select class="form-select" id="year_group" name="year_group" required>
+                                <option value="">Select Year Group</option>
+                                <option value="7">Year 7</option>
+                                <option value="8">Year 8</option>
+                                <option value="9">Year 9</option>
+                                <option value="10">Year 10</option>
+                                <option value="11">Year 11</option>
+                                <option value="12">Year 12</option>
+                                <option value="13">Year 13</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="complexity" class="form-label">Complexity</label>
+                            <select class="form-select" id="complexity" name="complexity" required>
+                                <option value="">Select Complexity</option>
+                                <option value="low">Low</option>
+                                <option value="medium">Medium</option>
+                                <option value="high">High</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Question Type -->
+                    <div class="mb-4">
+                        <label class="form-label">Question Type</label>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="question_type" 
+                                           id="multiple_choice" value="multiple_choice" checked 
+                                           onchange="toggleQuestionType()">
+                                    <label class="form-check-label" for="multiple_choice">
+                                        <i class="fas fa-list me-2"></i>Multiple Choice
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="question_type" 
+                                           id="short_answer" value="short_answer" 
+                                           onchange="toggleQuestionType()">
+                                    <label class="form-check-label" for="short_answer">
+                                        <i class="fas fa-edit me-2"></i>Short Answer
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question Content -->
+                    <div class="mb-4">
+                        <label for="question_text" class="form-label">Question Text</label>
+                        <textarea class="form-control" id="question_text" name="question_text" 
+                                  rows="4" required placeholder="Enter your question here..."></textarea>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="question_image" class="form-label">Question Image (Optional)</label>
+                        <input type="file" class="form-control" id="question_image" name="question_image" 
+                               accept="image/*" onchange="previewImage(this, 'question-preview')">
+                        <div class="form-text">Upload an image to accompany the question (JPG, PNG, GIF)</div>
+                        <div id="question-preview" class="mt-2"></div>
+                    </div>
+
+                    <!-- Multiple Choice Options -->
+                    <div id="multiple-choice-section">
+                        <h5 class="mb-3">Multiple Choice Options</h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="option_a" class="form-label">Option A</label>
+                                    <textarea class="form-control" id="option_a" name="option_a" 
+                                              rows="2" placeholder="Enter option A"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="option_b" class="form-label">Option B</label>
+                                    <textarea class="form-control" id="option_b" name="option_b" 
+                                              rows="2" placeholder="Enter option B"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="option_c" class="form-label">Option C</label>
+                                    <textarea class="form-control" id="option_c" name="option_c" 
+                                              rows="2" placeholder="Enter option C"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="option_d" class="form-label">Option D</label>
+                                    <textarea class="form-control" id="option_d" name="option_d" 
+                                              rows="2" placeholder="Enter option D"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label for="correct_option" class="form-label">Correct Answer</label>
+                            <select class="form-select" id="correct_option" name="correct_option">
+                                <option value="">Select correct option</option>
+                                <option value="A">Option A</option>
+                                <option value="B">Option B</option>
+                                <option value="C">Option C</option>
+                                <option value="D">Option D</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Short Answer Section -->
+                    <div id="short-answer-section" style="display: none;">
+                        <h5 class="mb-3">Short Answer Details</h5>
+                        <div class="mb-3">
+                            <label for="correct_answer" class="form-label">Correct Answer</label>
+                            <textarea class="form-control" id="correct_answer" name="correct_answer" 
+                                      rows="3" placeholder="Enter the correct answer or key points"></textarea>
+                            <div class="form-text">For short answers, this will be used for reference and basic comparison</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="answer_image" class="form-label">Answer Reference Image (Optional)</label>
+                            <input type="file" class="form-control" id="answer_image" name="answer_image" 
+                                   accept="image/*" onchange="previewImage(this, 'answer-preview')">
+                            <div class="form-text">Upload an image to help explain the correct answer</div>
+                            <div id="answer-preview" class="mt-2"></div>
+                        </div>
+                    </div>
+
+                    <!-- Submit Buttons -->
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary btn-lg me-3">
+                            <i class="fas fa-save me-2"></i>Save Question
+                        </button>
+                        <a href="{{ url_for('manage_questions') }}" class="btn btn-outline-secondary btn-lg">
+                            <i class="fas fa-arrow-left me-2"></i>Back to Questions
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function toggleQuestionType() {
+    const multipleChoice = document.getElementById('multiple_choice').checked;
+    const mcSection = document.getElementById('multiple-choice-section');
+    const saSection = document.getElementById('short-answer-section');
+    
+    if (multipleChoice) {
+        mcSection.style.display = 'block';
+        saSection.style.display = 'none';
+        
+        // Make multiple choice fields required
+        document.getElementById('option_a').required = true;
+        document.getElementById('option_b').required = true;
+        document.getElementById('option_c').required = true;
+        document.getElementById('option_d').required = true;
+        document.getElementById('correct_option').required = true;
+        
+        // Remove required from short answer fields
+        document.getElementById('correct_answer').required = false;
+    } else {
+        mcSection.style.display = 'none';
+        saSection.style.display = 'block';
+        
+        // Remove required from multiple choice fields
+        document.getElementById('option_a').required = false;
+        document.getElementById('option_b').required = false;
+        document.getElementById('option_c').required = false;
+        document.getElementById('option_d').required = false;
+        document.getElementById('correct_option').required = false;
+        
+        // Make short answer field required
+        document.getElementById('correct_answer').required = true;
+    }
+}
+
+function previewImage(input, previewId) {
+    const preview = document.getElementById(previewId);
+    
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+            preview.innerHTML = '<img src="' + e.target.result + '" class="img-thumbnail" style="max-width: 200px; max-height: 200px;">';
+        };
+        
+        reader.readAsDataURL(input.files[0]);
+    } else {
+        preview.innerHTML = '';
+    }
+}
+
+// Initialize the form
+document.addEventListener('DOMContentLoaded', function() {
+    toggleQuestionType();
+});
+</script>
+{% endblock %}

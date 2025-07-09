@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+{% block title %}Subscription - Exam Practice Hub{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h1><i class="fas fa-credit-card text-primary me-2"></i>Subscription Management</h1>
+        <p class="text-muted">Choose the plan that works best for you</p>
+    </div>
+</div>
+
+<!-- Current Subscription Status -->
+{% if user.subscription %}
+<div class="row mb-5">
+    <div class="col-12">
+        <div class="card {% if user.subscription.end_date > moment() %}border-success{% else %}border-warning{% endif %}">
+            <div class="card-body">
+                <h5 class="mb-3">Current Subscription</h5>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Type:</strong> {{ user.subscription.subscription_type.title() }}</p>
+                        <p><strong>Status:</strong> 
+                            {% if user.subscription.end_date > moment() %}
+                                <span class="badge bg-success">Active</span>
+                            {% else %}
+                                <span class="badge bg-warning">Expired</span>
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Start Date:</strong> {{ user.subscription.start_date.strftime('%B %d, %Y') }}</p>
+                        <p><strong>End Date:</strong> {{ user.subscription.end_date.strftime('%B %d, %Y') }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Subscription Plans -->
+<div class="row">
+    <div class="col-12">
+        <h3 class="mb-4 text-center">Choose Your Plan</h3>
+    </div>
+</div>
+
+<div class="row g-4 justify-content-center">
+    <!-- Free Trial -->
+    <div class="col-md-4">
+        <div class="card subscription-card h-100">
+            <div class="card-body text-center p-4">
+                <h4 class="card-title">Free Trial</h4>
+                <div class="display-4 text-primary mb-3">Free</div>
+                <p class="text-muted mb-4">7 days</p>
+                
+                <ul class="list-unstyled mb-4">
+                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Access to all subjects</li>
+                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Unlimited practice quizzes</li>
+                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Performance tracking</li>
+                    <li class="mb-2"><i class="fas fa-times text-danger me-2"></i>Limited to 7 days</li>
+                </ul>
+                
+                {% if not user.subscription or user.subscription.subscription_type != 'free_trial' %}
+                    <form method="POST" action="{{ url_for('upgrade_subscription') }}">
+                        <input type="hidden" name="subscription_type" value="free_trial">
+                        <button type="submit" class="btn btn-outline-primary w-100">Start Free Trial</button>
+                    </form>
+                {% else %}
+                    <button class="btn btn-secondary w-100" disabled>Current Plan</button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <!-- Monthly Plan -->
+    <div class="col-md-4">
+        <div class="card subscription-card featured h-100">
+            <div class="card-body text-center p-4">
+                <h4 class="card-title">Monthly Plan</h4>
+                <div class="display-4 text-primary mb-3">$9.99</div>
+                <p class="text-muted mb-4">per month</p>
+                
+                <ul class="list-unstyled mb-4">
+                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Access to all subjects</li>
+                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Unlimited practice quizzes</li>
+                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Performance tracking</li>
+                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Priority support</li>
+                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Advanced analytics</li>
+                </ul>
+                
+                {% if not user.subscription or user.subscription.subscription_type != 'monthly' %}
+                    <form method="POST" action="{{ url_for('upgrade_subscription') }}">
+                        <input type="hidden" name="subscription_type" value="monthly">
+                        <button type="submit" class="btn btn-primary w-100">Choose Monthly</button>
+                    </form>
+                {% else %}
+                    <button class="btn btn-secondary w-100" disabled>Current Plan</button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <!-- Yearly Plan -->
+    <div class="col-md-4">
+        <div class="card subscription-card h-100">
+            <div class="card-body text-center p-4">
+                <div class="badge bg-success position-absolute top-0 start-50 translate-middle">Best Value</div>
+                <h4 class="card-title mt-3">Yearly Plan</h4>
+                <div class="display-4 text-primary mb-3">$99.99</div>
+                <p class="text-muted mb-4">per year <small class="text-success">(Save 17%)</small></p>
+                
+                <ul class="list-unstyled mb-4">
+                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Access to all subjects</li>
+                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Unlimited practice quizzes</li>
+                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Performance tracking</li>
+                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Priority support</li>
+                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Advanced analytics</li>
+                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Exclusive content</li>
+                </ul>
+                
+                {% if not user.subscription or user.subscription.subscription_type != 'yearly' %}
+                    <form method="POST" action="{{ url_for('upgrade_subscription') }}">
+                        <input type="hidden" name="subscription_type" value="yearly">
+                        <button type="submit" class="btn btn-primary w-100">Choose Yearly</button>
+                    </form>
+                {% else %}
+                    <button class="btn btn-secondary w-100" disabled>Current Plan</button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-12 text-center">
+        <p class="text-muted">
+            <i class="fas fa-lock me-2"></i>Secure payment processing. Cancel anytime.
+        </p>
+        <small class="text-muted">
+            Note: This is a demo application. No actual payment processing is implemented.
+        </small>
+    </div>
+</div>
+{% endblock %}

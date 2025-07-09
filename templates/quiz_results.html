@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+
+{% block title %}Quiz Results{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="text-center mb-5">
+            <h1><i class="fas fa-chart-bar text-primary me-2"></i>Quiz Completed!</h1>
+            <p class="text-muted">Here are your results</p>
+        </div>
+        
+        <!-- Score Display -->
+        <div class="card mb-4">
+            <div class="card-body text-center p-5">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <i class="fas fa-trophy fa-3x {% if percentage >= 80 %}text-success{% elif percentage >= 60 %}text-warning{% else %}text-danger{% endif %} mb-2"></i>
+                            <h3 class="{% if percentage >= 80 %}text-success{% elif percentage >= 60 %}text-warning{% else %}text-danger{% endif %}">
+                                {{ "%.1f"|format(percentage) }}%
+                            </h3>
+                            <p class="text-muted">Overall Score</p>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <i class="fas fa-check-circle fa-3x text-success mb-2"></i>
+                            <h3 class="text-success">{{ score }}</h3>
+                            <p class="text-muted">Correct Answers</p>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <i class="fas fa-question-circle fa-3x text-info mb-2"></i>
+                            <h3 class="text-info">{{ total }}</h3>
+                            <p class="text-muted">Total Questions</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Progress Bar -->
+                <div class="mt-4">
+                    <div class="progress" style="height: 20px;">
+                        <div class="progress-bar {% if percentage >= 80 %}bg-success{% elif percentage >= 60 %}bg-warning{% else %}bg-danger{% endif %}" 
+                             role="progressbar" 
+                             style="width: {{ percentage }}%">
+                            {{ "%.1f"|format(percentage) }}%
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Performance Analysis -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5><i class="fas fa-analytics text-primary me-2"></i>Performance Analysis</h5>
+                
+                {% if percentage >= 90 %}
+                    <div class="alert alert-success">
+                        <i class="fas fa-star me-2"></i>
+                        <strong>Outstanding!</strong> You have excellent understanding of this topic. Keep up the great work!
+                    </div>
+                {% elif percentage >= 80 %}
+                    <div class="alert alert-success">
+                        <i class="fas fa-thumbs-up me-2"></i>
+                        <strong>Excellent!</strong> You have a very good grasp of this subject. Minor improvements could make you perfect!
+                    </div>
+                {% elif percentage >= 70 %}
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>Good!</strong> You're on the right track. Focus on areas where you made mistakes to improve further.
+                    </div>
+                {% elif percentage >= 60 %}
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <strong>Fair.</strong> You understand the basics but need more practice to strengthen your knowledge.
+                    </div>
+                {% else %}
+                    <div class="alert alert-danger">
+                        <i class="fas fa-book me-2"></i>
+                        <strong>Needs Improvement.</strong> Consider reviewing the study material and taking more practice quizzes.
+                    </div>
+                {% endif %}
+                
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <h6>Recommendations:</h6>
+                        <ul class="list-unstyled">
+                            {% if percentage < 70 %}
+                                <li><i class="fas fa-book text-primary me-2"></i>Review study materials</li>
+                                <li><i class="fas fa-redo text-primary me-2"></i>Retake quiz with easier difficulty</li>
+                            {% elif percentage < 85 %}
+                                <li><i class="fas fa-practice text-primary me-2"></i>Practice more questions</li>
+                                <li><i class="fas fa-level-up-alt text-primary me-2"></i>Try higher difficulty level</li>
+                            {% else %}
+                                <li><i class="fas fa-arrow-up text-primary me-2"></i>Challenge yourself with harder questions</li>
+                                <li><i class="fas fa-graduation-cap text-primary me-2"></i>Help others in study groups</li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Study Tips:</h6>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-clock text-info me-2"></i>Practice regularly</li>
+                            <li><i class="fas fa-notes-medical text-info me-2"></i>Review wrong answers</li>
+                            <li><i class="fas fa-users text-info me-2"></i>Join study groups</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="card">
+            <div class="card-body text-center">
+                <h5 class="mb-4">What would you like to do next?</h5>
+                
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <a href="{{ url_for('student_dashboard') }}" class="btn btn-primary w-100">
+                            <i class="fas fa-home me-2"></i>Back to Dashboard
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="{{ url_for('select_quiz', subject_id=subject_id) }}" class="btn btn-outline-primary w-100">
+                            <i class="fas fa-redo me-2"></i>Retake Quiz
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-outline-secondary w-100" onclick="window.print()">
+                            <i class="fas fa-print me-2"></i>Print Results
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Achievement Modal (if high score) -->
+{% if percentage >= 90 %}
+<div class="modal fade" id="achievementModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center p-5">
+                <i class="fas fa-medal fa-4x text-warning mb-3"></i>
+                <h3>Achievement Unlocked!</h3>
+                <p class="mb-4">Quiz Master - Scored 90% or higher!</p>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Awesome!</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = new bootstrap.Modal(document.getElementById('achievementModal'));
+    modal.show();
+});
+</script>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Subjects - Admin{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url_for('admin_dashboard') }}">Admin Dashboard</a></li>
+                <li class="breadcrumb-item active">Manage Subjects</li>
+            </ol>
+        </nav>
+        <h1><i class="fas fa-book-open text-primary me-2"></i>Manage Subjects</h1>
+        <p class="text-muted">Add, edit, or remove subjects from the platform</p>
+    </div>
+</div>
+
+<!-- Add New Subject -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fas fa-plus me-2"></i>Add New Subject</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('add_subject') }}">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Subject Name</label>
+                                <input type="text" class="form-control" id="name" name="name" required 
+                                       placeholder="e.g., Mathematics, Science, English">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Description (Optional)</label>
+                                <input type="text" class="form-control" id="description" name="description" 
+                                       placeholder="Brief description of the subject">
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-plus me-1"></i>Add Subject
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Existing Subjects -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5><i class="fas fa-list me-2"></i>Existing Subjects</h5>
+                <span class="badge bg-primary">{{ subjects|length }} subjects</span>
+            </div>
+            <div class="card-body">
+                {% if subjects %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Questions</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for subject in subjects %}
+                                    <tr>
+                                        <td>{{ subject.id }}</td>
+                                        <td>
+                                            <i class="fas fa-book text-primary me-2"></i>
+                                            <strong>{{ subject.name }}</strong>
+                                        </td>
+                                        <td>
+                                            {% if subject.description %}
+                                                {{ subject.description }}
+                                            {% else %}
+                                                <span class="text-muted">No description</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-info">{{ subject.questions|length }}</span>
+                                        </td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <button type="button" class="btn btn-outline-primary btn-sm">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-outline-danger btn-sm" 
+                                                        onclick="confirmDelete('{{ subject.name }}', {{ subject.id }})">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="text-center py-5">
+                        <i class="fas fa-book fa-3x text-muted mb-3"></i>
+                        <h4 class="text-muted">No Subjects Found</h4>
+                        <p class="text-muted">Add your first subject using the form above.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Stats -->
+{% if subjects %}
+<div class="row mt-4">
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fas fa-book-open fa-2x text-primary mb-2"></i>
+                <h4>{{ subjects|length }}</h4>
+                <p class="text-muted mb-0">Total Subjects</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fas fa-question-circle fa-2x text-info mb-2"></i>
+                <h4>{{ subjects|sum(attribute='questions')|length }}</h4>
+                <p class="text-muted mb-0">Total Questions</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fas fa-chart-bar fa-2x text-success mb-2"></i>
+                <h4>{{ "%.1f"|format((subjects|sum(attribute='questions')|length / subjects|length) if subjects|length > 0 else 0) }}</h4>
+                <p class="text-muted mb-0">Avg Questions/Subject</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+function confirmDelete(subjectName, subjectId) {
+    if (confirm('Are you sure you want to delete "' + subjectName + '"? This will also delete all associated questions.')) {
+        // Note: Delete functionality would need to be implemented in the backend
+        alert('Delete functionality would be implemented here.');
+    }
+}
+
+// Auto-focus on the subject name input
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('name').focus();
+});
+</script>
+{% endblock %}
