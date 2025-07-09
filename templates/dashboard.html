@@ -1,0 +1,222 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - ExamPractice{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Subscription Status -->
+    {% if not has_access %}
+        <div class="alert subscription-alert mb-4">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <h5 class="mb-1"><i class="fas fa-exclamation-triangle me-2"></i>Subscription Required</h5>
+                    <p class="mb-0">Your free trial has expired. Subscribe to continue accessing practice quizzes.</p>
+                </div>
+                <a href="{{ url_for('subscription') }}" class="btn btn-warning">Subscribe Now</a>
+            </div>
+        </div>
+    {% elif current_user.trial_expires and current_user.trial_expires > moment().utc() %}
+        <div class="alert alert-success mb-4">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <h5 class="mb-1"><i class="fas fa-gift me-2"></i>Free Trial Active</h5>
+                    <p class="mb-0">Your trial expires in {{ (current_user.trial_expires - moment().utc()).days + 1 }} days. Upgrade to continue uninterrupted access.</p>
+                </div>
+                <a href="{{ url_for('subscription') }}" class="btn btn-outline-success">Upgrade Now</a>
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- Welcome Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card stats-card">
+                <div class="card-body p-4">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h2 class="text-white mb-2">Welcome back, {{ current_user.name }}!</h2>
+                            <p class="text-white-50 mb-0">
+                                Year {{ current_user.year_level }} Student • Ready to practice some exams?
+                            </p>
+                        </div>
+                        <div class="col-md-4 text-end">
+                            <i class="fas fa-user-graduate" style="font-size: 4rem; opacity: 0.3;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="row mb-4">
+        <div class="col-md-3 col-sm-6 mb-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-clipboard-list fa-2x text-primary mb-2"></i>
+                    <h5 class="card-title">{{ current_user.quiz_attempts|length }}</h5>
+                    <p class="card-text text-muted">Quizzes Taken</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 mb-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-trophy fa-2x text-warning mb-2"></i>
+                    <h5 class="card-title">
+                        {% set avg_score = current_user.quiz_attempts|selectattr('score')|map(attribute='score')|list %}
+                        {% if avg_score %}
+                            {{ (avg_score|sum / avg_score|length)|round(1) }}%
+                        {% else %}
+                            0%
+                        {% endif %}
+                    </h5>
+                    <p class="card-text text-muted">Average Score</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 mb-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-book fa-2x text-success mb-2"></i>
+                    <h5 class="card-title">{{ subjects|length }}</h5>
+                    <p class="card-text text-muted">Available Subjects</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 mb-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-calendar fa-2x text-info mb-2"></i>
+                    <h5 class="card-title">
+                        {% if current_user.trial_expires and current_user.trial_expires > moment().utc() %}
+                            {{ (current_user.trial_expires - moment().utc()).days + 1 }}
+                        {% else %}
+                            ∞
+                        {% endif %}
+                    </h5>
+                    <p class="card-text text-muted">Days Remaining</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Available Subjects -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-book-open me-2"></i>Available Subjects for Year {{ current_user.year_level }}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% if subjects %}
+                        <div class="row">
+                            {% for subject in subjects %}
+                                <div class="col-lg-4 col-md-6 mb-3">
+                                    <div class="card subject-card h-100 {% if not has_access %}opacity-50{% endif %}">
+                                        <div class="card-body">
+                                            <h6 class="card-title">{{ subject.name }}</h6>
+                                            <p class="card-text text-muted small">
+                                                {{ subject.description or 'Practice questions for ' + subject.name }}
+                                            </p>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <small class="text-muted">
+                                                    <i class="fas fa-question-circle me-1"></i>
+                                                    {{ subject.questions|length }} questions
+                                                </small>
+                                                {% if has_access %}
+                                                    <a href="{{ url_for('take_quiz', subject_id=subject.id) }}" 
+                                                       class="btn btn-primary btn-sm">
+                                                        <i class="fas fa-play me-1"></i>Start Quiz
+                                                    </a>
+                                                {% else %}
+                                                    <button class="btn btn-secondary btn-sm" disabled>
+                                                        <i class="fas fa-lock me-1"></i>Locked
+                                                    </button>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center py-5">
+                            <i class="fas fa-book fa-3x text-muted mb-3"></i>
+                            <h5 class="text-muted">No subjects available for your year level yet</h5>
+                            <p class="text-muted">Check back soon as we add more content!</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Quiz Attempts -->
+    {% if current_user.quiz_attempts %}
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-history me-2"></i>Recent Quiz Attempts
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Subject</th>
+                                        <th>Score</th>
+                                        <th>Questions</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for attempt in current_user.quiz_attempts|reverse|slice(5) %}
+                                        <tr>
+                                            <td>{{ attempt.started_at.strftime('%b %d, %Y') }}</td>
+                                            <td>{{ attempt.quiz.subject.name if attempt.quiz else 'N/A' }}</td>
+                                            <td>
+                                                {% if attempt.score %}
+                                                    <span class="badge {% if attempt.score >= 80 %}bg-success{% elif attempt.score >= 60 %}bg-warning{% else %}bg-danger{% endif %}">
+                                                        {{ attempt.score }}%
+                                                    </span>
+                                                {% else %}
+                                                    <span class="badge bg-secondary">In Progress</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {% if attempt.correct_answers %}
+                                                    {{ attempt.correct_answers }}/{{ attempt.total_questions }}
+                                                {% else %}
+                                                    {{ attempt.total_questions }} questions
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {% if attempt.completed_at %}
+                                                    <span class="text-success">
+                                                        <i class="fas fa-check-circle me-1"></i>Completed
+                                                    </span>
+                                                {% else %}
+                                                    <span class="text-warning">
+                                                        <i class="fas fa-clock me-1"></i>In Progress
+                                                    </span>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

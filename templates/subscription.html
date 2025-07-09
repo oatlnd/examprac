@@ -1,0 +1,262 @@
+{% extends "base.html" %}
+
+{% block title %}Subscription - ExamPractice{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Current Status -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h5 class="card-title mb-2">
+                                <i class="fas fa-user me-2"></i>{{ current_user.name }}'s Subscription
+                            </h5>
+                            {% if current_user.has_active_subscription() %}
+                                {% if current_user.trial_expires and current_user.trial_expires > moment().utc() %}
+                                    <p class="card-text">
+                                        <span class="badge bg-success me-2">Free Trial Active</span>
+                                        Your trial expires on {{ current_user.trial_expires.strftime('%B %d, %Y') }}
+                                    </p>
+                                {% else %}
+                                    <p class="card-text">
+                                        <span class="badge bg-primary me-2">Premium Active</span>
+                                        You have full access to all features
+                                    </p>
+                                {% endif %}
+                            {% else %}
+                                <p class="card-text">
+                                    <span class="badge bg-warning text-dark me-2">Trial Expired</span>
+                                    Subscribe to continue accessing practice quizzes
+                                </p>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-4 text-end">
+                            {% if current_user.has_active_subscription() %}
+                                <i class="fas fa-check-circle fa-3x text-success"></i>
+                            {% else %}
+                                <i class="fas fa-exclamation-triangle fa-3x text-warning"></i>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pricing Plans -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h3 class="text-center mb-4">Choose Your Plan</h3>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <!-- Monthly Plan -->
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-100 {% if not current_user.has_active_subscription() %}border-primary{% endif %}">
+                <div class="card-header text-center bg-primary text-white">
+                    <h5 class="card-title mb-0">Monthly Plan</h5>
+                </div>
+                <div class="card-body text-center p-4">
+                    <div class="price mb-3">
+                        <span class="display-4 fw-bold">$9</span>
+                        <span class="text-muted">/month</span>
+                    </div>
+                    <ul class="list-unstyled text-start">
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Unlimited practice quizzes</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>All subjects & grade levels</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Progress tracking</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Mobile access</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Instant results & explanations</li>
+                    </ul>
+                    {% if not current_user.has_active_subscription() %}
+                        <button class="btn btn-primary btn-lg w-100 mt-3" onclick="subscribe('monthly')">
+                            Subscribe Monthly
+                        </button>
+                    {% else %}
+                        <button class="btn btn-outline-primary btn-lg w-100 mt-3" disabled>
+                            {% if current_user.trial_expires and current_user.trial_expires > moment().utc() %}
+                                Upgrade to Monthly
+                            {% else %}
+                                Current Plan
+                            {% endif %}
+                        </button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Yearly Plan -->
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-100 border-success">
+                <div class="card-header text-center bg-success text-white position-relative">
+                    <h5 class="card-title mb-0">Yearly Plan</h5>
+                    <span class="badge bg-warning text-dark position-absolute top-0 start-50 translate-middle">
+                        Most Popular
+                    </span>
+                </div>
+                <div class="card-body text-center p-4">
+                    <div class="price mb-3">
+                        <span class="display-4 fw-bold">$65</span>
+                        <span class="text-muted">/year</span>
+                    </div>
+                    <div class="text-success mb-3">
+                        <small><strong>Save $43 compared to monthly!</strong></small>
+                    </div>
+                    <ul class="list-unstyled text-start">
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Everything in Monthly plan</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Priority customer support</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Advanced analytics & insights</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Downloadable study guides</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Early access to new features</li>
+                    </ul>
+                    {% if not current_user.has_active_subscription() %}
+                        <button class="btn btn-success btn-lg w-100 mt-3" onclick="subscribe('yearly')">
+                            Subscribe Yearly
+                        </button>
+                    {% else %}
+                        <button class="btn btn-outline-success btn-lg w-100 mt-3" onclick="subscribe('yearly')">
+                            {% if current_user.trial_expires and current_user.trial_expires > moment().utc() %}
+                                Upgrade to Yearly
+                            {% else %}
+                                Switch to Yearly
+                            {% endif %}
+                        </button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Comparison -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-star me-2"></i>What You Get with Premium
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-infinity text-primary me-3 mt-1"></i>
+                                <div>
+                                    <h6>Unlimited Practice</h6>
+                                    <p class="text-muted small mb-0">Take as many quizzes as you want across all subjects and difficulty levels.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-chart-line text-success me-3 mt-1"></i>
+                                <div>
+                                    <h6>Progress Tracking</h6>
+                                    <p class="text-muted small mb-0">Monitor your improvement with detailed analytics and performance insights.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-mobile-alt text-info me-3 mt-1"></i>
+                                <div>
+                                    <h6>Multi-Device Access</h6>
+                                    <p class="text-muted small mb-0">Study anywhere with seamless access across desktop, tablet, and mobile.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-lightbulb text-warning me-3 mt-1"></i>
+                                <div>
+                                    <h6>Instant Explanations</h6>
+                                    <p class="text-muted small mb-0">Get detailed explanations for every answer to learn from your mistakes.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Testimonials -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <h4 class="text-center mb-4">What Students Say</h4>
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div class="mb-3">
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                            </div>
+                            <p class="card-text">"ExamPractice helped me improve my math scores by 20%! The questions are really similar to what we get in school."</p>
+                            <footer class="blockquote-footer">
+                                <small>Sarah, Year 10 Student</small>
+                            </footer>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div class="mb-3">
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                            </div>
+                            <p class="card-text">"I love how I can practice on my phone during breaks. The progress tracking keeps me motivated!"</p>
+                            <footer class="blockquote-footer">
+                                <small>Mike, Year 8 Student</small>
+                            </footer>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div class="mb-3">
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                            </div>
+                            <p class="card-text">"The explanations are so helpful! I finally understand concepts I was struggling with."</p>
+                            <footer class="blockquote-footer">
+                                <small>Emma, Year 11 Student</small>
+                            </footer>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function subscribe(plan) {
+    // In a real application, this would integrate with Stripe or another payment processor
+    alert(`Subscription feature not implemented in demo. Selected plan: ${plan}`);
+    
+    // Demo: Simulate successful subscription
+    if (confirm('This is a demo. Simulate successful subscription?')) {
+        // You would normally redirect to Stripe checkout here
+        window.location.href = '{{ url_for("dashboard") }}';
+    }
+}
+</script>
+{% endblock %}

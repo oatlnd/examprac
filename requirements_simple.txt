@@ -1,0 +1,11 @@
+Flask
+Flask-SQLAlchemy
+Flask-Login
+Flask-WTF
+WTForms
+Werkzeug
+Pillow
+python-dotenv
+stripe
+Flask-Mail
+email-validator
