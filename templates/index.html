@@ -1,0 +1,231 @@
+{% extends "base.html" %}
+
+{% block title %}ExamPractice - Master Your Exams{% endblock %}
+
+{% block content %}
+<div class="bg-white">
+    <!-- Hero Section -->
+    <section class="py-5 bg-gradient" style="background: linear-gradient(135deg, #3B82F6, #1E40AF);">
+        <div class="container py-5">
+            <div class="row align-items-center">
+                <div class="col-lg-6 text-white">
+                    <h1 class="display-4 fw-bold mb-4">Master Your Exams with Smart Practice</h1>
+                    <p class="lead mb-4">
+                        Comprehensive exam preparation platform designed for school children. 
+                        Practice with thousands of questions across multiple subjects and grade levels.
+                    </p>
+                    <div class="d-flex gap-3">
+                        <a href="{{ url_for('register') }}" class="btn btn-light btn-lg px-4">
+                            <i class="fas fa-rocket me-2"></i>Start Free Trial
+                        </a>
+                        <a href="#features" class="btn btn-outline-light btn-lg px-4">
+                            Learn More
+                        </a>
+                    </div>
+                    <div class="mt-4">
+                        <small class="opacity-75">
+                            <i class="fas fa-gift me-1"></i>7-day free trial • No credit card required
+                        </small>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="text-center">
+                        <i class="fas fa-graduation-cap" style="font-size: 12rem; color: rgba(255,255,255,0.1);"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center mb-5">
+                    <h2 class="display-5 fw-bold">Why Students Love ExamPractice</h2>
+                    <p class="lead text-muted">
+                        Everything you need to excel in your exams, all in one place
+                    </p>
+                </div>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card h-100 text-center p-4">
+                        <div class="card-body">
+                            <div class="feature-icon mb-3">
+                                <i class="fas fa-book-open fa-3x text-primary"></i>
+                            </div>
+                            <h5 class="card-title">Multiple Subjects</h5>
+                            <p class="card-text text-muted">
+                                Comprehensive question banks covering Math, Science, English, History, and more across all grade levels.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="card h-100 text-center p-4">
+                        <div class="card-body">
+                            <div class="feature-icon mb-3">
+                                <i class="fas fa-chart-line fa-3x text-success"></i>
+                            </div>
+                            <h5 class="card-title">Adaptive Learning</h5>
+                            <p class="card-text text-muted">
+                                Questions adapt to your skill level with low, medium, and high complexity options to match your learning pace.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="card h-100 text-center p-4">
+                        <div class="card-body">
+                            <div class="feature-icon mb-3">
+                                <i class="fas fa-trophy fa-3x text-warning"></i>
+                            </div>
+                            <h5 class="card-title">Track Progress</h5>
+                            <p class="card-text text-muted">
+                                Monitor your improvement with detailed analytics and performance tracking across all subjects.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="card h-100 text-center p-4">
+                        <div class="card-body">
+                            <div class="feature-icon mb-3">
+                                <i class="fas fa-clock fa-3x text-info"></i>
+                            </div>
+                            <h5 class="card-title">Timed Practice</h5>
+                            <p class="card-text text-muted">
+                                Simulate real exam conditions with timed quizzes to build confidence and improve time management.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="card h-100 text-center p-4">
+                        <div class="card-body">
+                            <div class="feature-icon mb-3">
+                                <i class="fas fa-images fa-3x text-purple"></i>
+                            </div>
+                            <h5 class="card-title">Rich Content</h5>
+                            <p class="card-text text-muted">
+                                Questions and answers support both text and images for a comprehensive learning experience.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="card h-100 text-center p-4">
+                        <div class="card-body">
+                            <div class="feature-icon mb-3">
+                                <i class="fas fa-mobile-alt fa-3x text-danger"></i>
+                            </div>
+                            <h5 class="card-title">Study Anywhere</h5>
+                            <p class="card-text text-muted">
+                                Access your practice questions from any device - desktop, tablet, or mobile phone.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center mb-5">
+                    <h2 class="display-5 fw-bold">Simple, Affordable Pricing</h2>
+                    <p class="lead text-muted">
+                        Choose the plan that works best for your study schedule
+                    </p>
+                </div>
+            </div>
+            
+            <div class="row justify-content-center g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="card h-100">
+                        <div class="card-header text-center bg-primary text-white">
+                            <h5 class="card-title mb-0">Monthly Plan</h5>
+                        </div>
+                        <div class="card-body text-center p-4">
+                            <div class="price mb-3">
+                                <span class="display-4 fw-bold">$9</span>
+                                <span class="text-muted">/month</span>
+                            </div>
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Unlimited practice quizzes</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>All subjects & grade levels</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Progress tracking</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Mobile access</li>
+                            </ul>
+                            <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg w-100 mt-3">
+                                Start Free Trial
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="card h-100 border-primary">
+                        <div class="card-header text-center bg-success text-white position-relative">
+                            <h5 class="card-title mb-0">Yearly Plan</h5>
+                            <span class="badge bg-warning text-dark position-absolute top-0 start-50 translate-middle">
+                                Save 40%
+                            </span>
+                        </div>
+                        <div class="card-body text-center p-4">
+                            <div class="price mb-3">
+                                <span class="display-4 fw-bold">$65</span>
+                                <span class="text-muted">/year</span>
+                            </div>
+                            <div class="text-muted mb-3">
+                                <small>Just $5.40/month</small>
+                            </div>
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Everything in Monthly</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Priority support</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Advanced analytics</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Exam preparation guides</li>
+                            </ul>
+                            <a href="{{ url_for('register') }}" class="btn btn-success btn-lg w-100 mt-3">
+                                Start Free Trial
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-4">
+                <small class="text-muted">
+                    All plans include a 7-day free trial. Cancel anytime. No hidden fees.
+                </small>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h2 class="display-6 fw-bold mb-4">Ready to Excel in Your Exams?</h2>
+                    <p class="lead text-muted mb-4">
+                        Join thousands of students who have improved their grades with ExamPractice
+                    </p>
+                    <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg px-5 py-3">
+                        <i class="fas fa-rocket me-2"></i>Get Started Free
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

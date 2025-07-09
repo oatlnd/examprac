@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}Register - ExamPractice{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card">
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <h2 class="card-title">Create Your Account</h2>
+                        <p class="text-muted">Start your 7-day free trial today</p>
+                    </div>
+                    
+                    <form method="POST">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email Address</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="year_level" class="form-label">Year/Grade Level</label>
+                            <select class="form-select" id="year_level" name="year_level" required>
+                                <option value="">Select your year level</option>
+                                <option value="1">Year 1 (Grade 1)</option>
+                                <option value="2">Year 2 (Grade 2)</option>
+                                <option value="3">Year 3 (Grade 3)</option>
+                                <option value="4">Year 4 (Grade 4)</option>
+                                <option value="5">Year 5 (Grade 5)</option>
+                                <option value="6">Year 6 (Grade 6)</option>
+                                <option value="7">Year 7 (Grade 7)</option>
+                                <option value="8">Year 8 (Grade 8)</option>
+                                <option value="9">Year 9 (Grade 9)</option>
+                                <option value="10">Year 10 (Grade 10)</option>
+                                <option value="11">Year 11 (Grade 11)</option>
+                                <option value="12">Year 12 (Grade 12)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                            <div class="form-text">Must be at least 6 characters long</div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <div class="alert alert-info">
+                                <i class="fas fa-gift me-2"></i>
+                                <strong>Free Trial Included!</strong><br>
+                                Get full access for 7 days. No credit card required.
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary w-100 btn-lg">
+                            <i class="fas fa-rocket me-2"></i>Start Free Trial
+                        </button>
+                    </form>
+                    
+                    <div class="text-center mt-4">
+                        <p class="text-muted">
+                            Already have an account? 
+                            <a href="{{ url_for('login') }}" class="text-decoration-none">Sign in</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Features -->
+            <div class="row mt-4 text-center">
+                <div class="col-4">
+                    <i class="fas fa-book text-primary mb-2" style="font-size: 2rem;"></i>
+                    <p class="small text-muted">Multiple Subjects</p>
+                </div>
+                <div class="col-4">
+                    <i class="fas fa-chart-line text-success mb-2" style="font-size: 2rem;"></i>
+                    <p class="small text-muted">Track Progress</p>
+                </div>
+                <div class="col-4">
+                    <i class="fas fa-mobile-alt text-info mb-2" style="font-size: 2rem;"></i>
+                    <p class="small text-muted">Study Anywhere</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
